@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+const url = "https://game-of-thrones-quotes.herokuapp.com/v1/random";
 
 function App() {
+  const [quote, setQuote] = useState("");
+  const [error, setError] = useState(false);
+  const handleClick = async (e) => {
+    const tres = await fetch(url);
+    // console.log(tres.status);
+
+    const res = await tres.json();
+    setQuote(res);
+    if (tres.status !== 200) {
+      setError(true);
+      setQuote(tres);
+    } else {
+      setQuote(res);
+      setError(false);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      {!error ? (
+        quote && (
+          <div className="quoteCtn">
+            <p>"{quote.sentence}"</p>
+            <h4>- {quote.character.name}</h4>
+          </div>
+        )
+      ) : (
+        <>
+          <div className="errorCtn">{quote.statusText}</div>
+        </>
+      )}
+      <section className="btnCtn">
+        <button onClick={handleClick}>Get a Quote</button>
+      </section>
+    </section>
   );
 }
 

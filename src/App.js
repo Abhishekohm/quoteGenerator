@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-const url = "https://game-of-thrones-quotes.herokuapp.com/v1/random";
+const url = "https://game-of-thrones-quotes.herokuapp.com/v1/random"; // api url 
 
 function App() {
   const [quote, setQuote] = useState("");
